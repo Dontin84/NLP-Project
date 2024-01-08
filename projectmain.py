@@ -13,9 +13,6 @@ import streamlit as st
 langchain.verbose = False
 
 # Load environment variables from .env
-os.environ['OPENAI_API_KEY'] = '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'
-
-
 
 llm = OpenAI(model="text-davinci-003", temperature=0)
 embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
