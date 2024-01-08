@@ -56,7 +56,7 @@ def streamlit_app():
             vectorstore_openai = process_urls(urls)
             result = handle_query(query, vectorstore_openai)
             st.header("Answer")
-            st.write("Answer:", result["answer"])
+            st.write(result["answer"])
             # Display sources if available
             if result.get("sources"):
                 st.write("Sources:", result["sources"])
