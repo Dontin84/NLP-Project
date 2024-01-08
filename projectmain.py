@@ -17,8 +17,6 @@ langchain.verbose = False
 llm = OpenAI(model="text-davinci-003", temperature=0)
 embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
-file_path = "faiss_store_openai.pkl"
-
 # Function to process URLs and create embeddings
 def process_urls(urls):
     loader = UnstructuredURLLoader(urls=urls)
@@ -33,17 +31,13 @@ def process_urls(urls):
     embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
     vectorstore_openai = FAISS.from_documents(docs, embeddings)
 
-    with open(file_path, "wb") as f:
-        pickle.dump(vectorstore_openai, f)
+    return vectorstore_openai
 
 # Function to handle queries
-def handle_query(query):
-    if os.path.exists(file_path):
-        with open(file_path, "rb") as f:
-            vectorstore = pickle.load(f)
-            chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=vectorstore.as_retriever())
-            result = chain({"question": query}, return_only_outputs=True)
-            return result
+def handle_query(query, vectorstore_openai):
+    chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=vectorstore_openai.as_retriever())
+    result = chain({"question": query}, return_only_outputs=True)
+    return result
 
 # Define the Streamlit app in a function
 def streamlit_app():
@@ -59,8 +53,8 @@ def streamlit_app():
         if not any(urls):
             st.warning("Please enter at least one URL.")
         elif query:
-            process_urls(urls)
-            result = handle_query(query)
+            vectorstore_openai = process_urls(urls)
+            result = handle_query(query, vectorstore_openai)
             st.write("Answer:", result["answer"])
 
             # Display sources if available
