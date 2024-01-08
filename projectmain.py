@@ -41,7 +41,7 @@ def handle_query(query, vectorstore_openai):
 
 # Define the Streamlit app in a function
 def streamlit_app():
-    st.title("Streamlit App for Langchain")
+    st.title("Langchain Research Tool 📈")
 
     # Sidebar with user input
     num_urls = st.number_input("Enter the number of URLs (max 3)", min_value=1, max_value=3, step=1, value=2)
@@ -55,8 +55,8 @@ def streamlit_app():
         elif query:
             vectorstore_openai = process_urls(urls)
             result = handle_query(query, vectorstore_openai)
+            st.header("Answer")
             st.write("Answer:", result["answer"])
-
             # Display sources if available
             if result.get("sources"):
                 st.write("Sources:", result["sources"])
