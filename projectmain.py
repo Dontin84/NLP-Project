@@ -14,7 +14,7 @@ langchain.verbose = False
 
 # Load environment variables from .env
 
-llm = OpenAI(model="text-davinci-003", temperature=0)
+llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
 embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
 # Function to process URLs and create embeddings
