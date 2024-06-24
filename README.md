@@ -1,2 +1,2 @@
 # NLP-Project
-news_research_tool_project
+Langchain-powered research tool that processes URLs to create embeddings and handles user queries, providing answers with relevant sources.
